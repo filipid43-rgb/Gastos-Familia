@@ -467,7 +467,7 @@ function renderGastos(){
   Object.keys(grupos).sort((a,b)=>b.localeCompare(a)).forEach(d=>{
     const lbl=new Date(d+'T12:00:00').toLocaleDateString('pt-BR',{weekday:'short',day:'numeric',month:'short'});
     const tot=grupos[d].reduce((s,e)=>s+(e.valor||0),0);
-    html+=`<div class="slabel">${lbl} <span>${fmt(tot)}</span></div>`;
+    html+=<div class="slabel">${lbl} <span>${fmt(tot)}</span></div>;
     html+=grupos[d].map(e=>itemHTML(e,'gasto')).join('');
   });
   el.innerHTML=html;
@@ -494,7 +494,7 @@ function renderRenda(){
   Object.keys(grupos).sort((a,b)=>b.localeCompare(a)).forEach(d=>{
     const lbl=new Date(d+'T12:00:00').toLocaleDateString('pt-BR',{weekday:'short',day:'numeric',month:'short'});
     const tot=grupos[d].reduce((s,e)=>s+(e.valor||0),0);
-    html+=`<div class="slabel">${lbl} <span>${fmt(tot)}</span></div>`;
+    html+=<div class="slabel">${lbl} <span>${fmt(tot)}</span></div>;
     html+=grupos[d].map(e=>itemHTML(e,'renda')).join('');
   });
   el.innerHTML=html;
@@ -509,7 +509,7 @@ function itemHTML(e,tipo){
   const valCor=isRenda?'var(--green)':'var(--red)';
   const emoji=(label||'').split(' ')[0]||'💰';
   const safeId=(e.id||'').replace(/'/g,"\\'");
-  const delFn=isRenda?`delRenda('${safeId}')`:`delGasto('${safeId}')`;
+  const delFn=isRenda?delRenda('${safeId}'):delGasto('${safeId}');
   const descDisplay=e.desc&&e.desc.trim()?e.desc:label;
   return `<div class="item">
     <div class="icat" style="background:${cor}22;color:${cor}">${emoji}</div>
@@ -537,9 +537,9 @@ function renderDonut(){
     const ci=CATS.indexOf(cat),cor=ci>=0?CORES[ci]:'#b0b0c8';
     const end=deg+(val/total)*360;
     grad+=`${cor} ${deg}deg ${end}deg, `;deg=end;
-    leg+=`<div style="display:flex;align-items:center;gap:5px;font-size:.73rem;color:var(--muted)"><div style="width:8px;height:8px;border-radius:50%;background:${cor};flex-shrink:0"></div>${cat.split(' ').slice(1).join(' ')}</div>`;
+    leg+=<div style="display:flex;align-items:center;gap:5px;font-size:.73rem;color:var(--muted)"><div style="width:8px;height:8px;border-radius:50%;background:${cor};flex-shrink:0"></div>${cat.split(' ').slice(1).join(' ')}</div>;
   });
-  document.getElementById('donut').style.background=`conic-gradient(${grad.slice(0,-2)})`;
+  document.getElementById('donut').style.background=conic-gradient(${grad.slice(0,-2)});
   document.getElementById('donut').style.borderRadius='50%';
   document.getElementById('donutLeg').innerHTML=leg;
 }
@@ -552,7 +552,7 @@ function renderBars(){
   const max=sorted[0][1]||1;
   document.getElementById('catBars').innerHTML=sorted.map(([cat,val])=>{
     const ci=CATS.indexOf(cat),cor=ci>=0?CORES[ci]:'#b0b0c8';
-    return `<div class="bar-row"><div class="bar-top"><div class="bar-name">${cat.split(' ')[0]} <span style="font-size:.78rem">${cat.split(' ').slice(1).join(' ')}</span></div><div style="font-weight:600;font-size:.82rem;color:${cor}">${fmt(val)}</div></div><div class="bar-track"><div class="bar-fill" style="width:${(val/max*100).toFixed(1)}%;background:${cor}"></div></div></div>`;
+    return <div class="bar-row"><div class="bar-top"><div class="bar-name">${cat.split(' ')[0]} <span style="font-size:.78rem">${cat.split(' ').slice(1).join(' ')}</span></div><div style="font-weight:600;font-size:.82rem;color:${cor}">${fmt(val)}</div></div><div class="bar-track"><div class="bar-fill" style="width:${(val/max*100).toFixed(1)}%;background:${cor}"></div></div></div>;
   }).join('');
 }
 
@@ -565,7 +565,7 @@ function renderOrc(){
     const lim=orcamento[cat],gasto=tots[cat]||0,pct=Math.min(gasto/lim,1);
     const cor=pct<.7?'var(--green)':pct<1?'var(--gold)':'var(--red)';
     const tag=pct<.7?'<span class="tag tok">✓ OK</span>':pct<1?'<span class="tag twarn">⚠ Atenção</span>':'<span class="tag tover">🔴 Excedido</span>';
-    return `<div class="bitem"><div class="btop"><div class="bcat">${cat}</div>${tag}</div><div class="bnums"><span>${fmt(gasto)} de ${fmt(lim)}</span><span>${(pct*100).toFixed(0)}%</span></div><div class="btrack"><div class="bfill" style="width:${pct*100}%;background:${cor}"></div></div></div>`;
+    return <div class="bitem"><div class="btop"><div class="bcat">${cat}</div>${tag}</div><div class="bnums"><span>${fmt(gasto)} de ${fmt(lim)}</span><span>${(pct*100).toFixed(0)}%</span></div><div class="btrack"><div class="bfill" style="width:${pct*100}%;background:${cor}"></div></div></div>;
   }).join('');
 }
 
@@ -605,4 +605,4 @@ function toast(msg){
 }
 </script>
 </body>
-  </html>
+</html>
